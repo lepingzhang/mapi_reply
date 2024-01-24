@@ -28,7 +28,7 @@ class MapiReply(Plugin):
                     return
                 elif "开始拍马屁" in message_content:
                     self.is_active = True
-                    reply_text = "😝中!!!"  # 添加回复消息
+                    reply_text = "🤩中!!!"  # 添加回复消息
                     text_reply = Reply(ReplyType.TEXT, reply_text)
                     event.reply = text_reply
                     event.bypass()  # 防止消息被多个插件处理
