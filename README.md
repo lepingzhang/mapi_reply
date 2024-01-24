@@ -21,7 +21,7 @@
 {
   "name": "mapi_reply",
   "user_replies": {
-    "wxid_tkj38bxklfih12": ["哇哦"]
+    "wxid_1234567890": ["👍"]
   }
 }
 ```
