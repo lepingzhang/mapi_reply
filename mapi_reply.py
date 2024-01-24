@@ -10,7 +10,6 @@ class MapiReply(Plugin):
     def __init__(self, config: dict):
         super().__init__(config)
         self.user_replies = config.get('user_replies', {})
-        self.filtered_keywords = config.get('filtered_keywords', [])
         self.is_active = True  # 默认插件是激活状态
 
     def did_receive_message(self, event: Event):
@@ -39,10 +38,7 @@ class MapiReply(Plugin):
             if not self.is_active:
                 return
 
-            # 过滤关键词检查
-            if any(keyword in message_content for keyword in self.filtered_keywords):
-                return
-
+            # 回复逻辑
             if sender_id in self.user_replies:
                 reply_text = random.choice(self.user_replies[sender_id])
                 text_reply = Reply(ReplyType.TEXT, reply_text)
@@ -59,4 +55,4 @@ class MapiReply(Plugin):
         pass
 
     def help(self, **kwargs) -> str:
-        return "通过配置群聊id，随机回复特定用户的发言，并且可以设置不处理的关键词。"
+        return "通过配置群聊id，随机回复特定用户的发言。"
