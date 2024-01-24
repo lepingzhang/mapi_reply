@@ -10,16 +10,36 @@ class MapiReply(Plugin):
     def __init__(self, config: dict):
         super().__init__(config)
         self.user_replies = config.get('user_replies', {})
-        # 新增一个过滤关键词配置
         self.filtered_keywords = config.get('filtered_keywords', [])
+        self.is_active = True  # 默认插件是激活状态
 
     def did_receive_message(self, event: Event):
-        # 使用 event.message.is_group 来检查消息是否来自群聊
-        if event.message.is_group:  # 使用 event.message.is_group
+        if event.message.is_group:
             sender_id = event.message.sender_id
-            message_content = event.message.content  # 获取消息内容
+            message_content = event.message.content
 
-            # 检查消息是否包含过滤关键词，如果包含，则不处理
+            # 特殊命令处理
+            if sender_id in self.user_replies:
+                if "停止拍马屁" in message_content:
+                    self.is_active = False
+                    reply_text = "😷好的老板"  # 添加回复消息
+                    text_reply = Reply(ReplyType.TEXT, reply_text)
+                    event.reply = text_reply
+                    event.bypass()  # 防止消息被多个插件处理
+                    return
+                elif "开始拍马屁" in message_content:
+                    self.is_active = True
+                    reply_text = "😝中!!!"  # 添加回复消息
+                    text_reply = Reply(ReplyType.TEXT, reply_text)
+                    event.reply = text_reply
+                    event.bypass()  # 防止消息被多个插件处理
+                    return
+
+            # 如果插件是非激活状态，则不处理消息
+            if not self.is_active:
+                return
+
+            # 过滤关键词检查
             if any(keyword in message_content for keyword in self.filtered_keywords):
                 return
 
@@ -28,7 +48,6 @@ class MapiReply(Plugin):
                 text_reply = Reply(ReplyType.TEXT, reply_text)
                 event.reply = text_reply
                 event.bypass()  # 防止消息被多个插件处理
-        # 如果不是群聊消息，插件不做处理
 
     def will_generate_reply(self, event: Event):
         pass
