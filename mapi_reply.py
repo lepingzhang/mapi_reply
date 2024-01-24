@@ -9,17 +9,15 @@ class MapiReply(Plugin):
 
     def __init__(self, config: dict):
         super().__init__(config)
-        self.trigger_users = config.get('trigger_users', [])
-        self.replies = config.get('replies', [])
-        self.user_responses = self.load_user_responses()
-
-    def load_user_responses(self):
-        # 在这里，您可以定义一个JSON文件来存储触发用户和响应，或者直接在配置中设置
-        return {user: self.replies for user in self.trigger_users}
+        # 配置文件中的user_replies字段应该是一个字典，键为用户ID，值为回复列表
+        self.user_replies = config.get('user_replies', {})
 
     def did_receive_message(self, event: Event):
-        if event.message.sender_id in self.user_responses:
-            reply_text = random.choice(self.user_responses[event.message.sender_id])
+        sender_id = event.message.sender_id
+        # 检查消息发送者是否在user_replies字典的键中
+        if sender_id in self.user_replies:
+            # 如果是，从该用户的回复列表中随机选择一个回复
+            reply_text = random.choice(self.user_replies[sender_id])
             text_reply = Reply(ReplyType.TEXT, reply_text)
             event.reply = text_reply
             event.bypass()  # 防止消息被多个插件处理
