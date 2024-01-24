@@ -21,8 +21,8 @@
 {
   "name": "mapi_reply",
   "user_replies": {
-    "wxid_user1": ["回复1", "回复2", "回复3"],
-    "wxid_user2": ["回复A", "回复B", "回复C"]
-  }
+    "wxid_***": ["哇哦"]
+  },
+  "filtered_keywords": ["过滤关键词1", "过滤关键词2"]
 }
 ```
