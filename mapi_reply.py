@@ -21,7 +21,7 @@ class MapiReply(Plugin):
             if sender_id in self.user_replies:
                 if "停止拍马屁" in message_content:
                     self.is_active = False
-                    reply_text = "😷好的老板"  # 添加回复消息
+                    reply_text = "🤐好的老板"  # 添加回复消息
                     text_reply = Reply(ReplyType.TEXT, reply_text)
                     event.reply = text_reply
                     event.bypass()  # 防止消息被多个插件处理
