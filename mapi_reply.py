@@ -11,7 +11,7 @@ class MapiReply(Plugin):
         super().__init__(config)
         self.user_replies = config.get('user_replies', {})
         self.is_active = True  # 默认插件是激活状态
-        self.bot_name = config.get('bot_name')  # 从配置文件读取机器人名字
+        self.bot_name = config.get('bot_nickname')  # 从配置文件读取机器人昵称
 
     def did_receive_message(self, event: Event):
         if event.message.is_group:
