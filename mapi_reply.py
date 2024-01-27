@@ -11,14 +11,14 @@ class MapiReply(Plugin):
         super().__init__(config)
         self.user_replies = config.get('user_replies', {})
         self.is_active = True  # 默认插件是激活状态
-        self.bot_name = config.get('bot_nickname')  # 从配置文件读取机器人昵称
+        self.bot_nickname = config.get('bot_nickname')  # 从配置文件读取机器人昵称
 
     def did_receive_message(self, event: Event):
         if event.message.is_group:
             sender_id = event.message.sender_id
             message_content = event.message.content
-            is_at_bot = self.bot_name in message_content  # 检查消息是否@了机器人
-            is_at_other = "@" in message_content and self.bot_name not in message_content  # 检查消息是否@了其他人
+            is_at_bot = self.bot_nickname in message_content  # 检查消息是否@了机器人
+            is_at_other = "@" in message_content and self.bot_nickname not in message_content  # 检查消息是否@了其他人
 
             # 特殊命令处理
             if sender_id in self.user_replies:
