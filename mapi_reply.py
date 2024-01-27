@@ -11,14 +11,11 @@ class MapiReply(Plugin):
         super().__init__(config)
         self.user_replies = config.get('user_replies', {})
         self.is_active = True  # 默认插件是激活状态
-        self.bot_nickname = config.get('bot_nickname')  # 从配置文件读取机器人昵称
 
     def did_receive_message(self, event: Event):
         if event.message.is_group:
             sender_id = event.message.sender_id
             message_content = event.message.content
-            is_at_bot = self.bot_nickname in message_content  # 检查消息是否@了机器人
-            is_at_other = "@" in message_content and self.bot_nickname not in message_content  # 检查消息是否@了其他人
 
             # 特殊命令处理
             if sender_id in self.user_replies:
@@ -48,16 +45,8 @@ class MapiReply(Plugin):
 
             # 检查是否满足回复条件
             if user_config and reply_texts:
-                should_reply = False
-                # 特定成员发送了包含关键字的消息，且没有@其他人
-                if keywords and any(keyword in message_content for keyword in keywords) and not is_at_other:
-                    should_reply = True
-                # 消息中@了机器人，并且内容包含关键字
-                elif is_at_bot and any(keyword in message_content for keyword in keywords):
-                    should_reply = True
-
-                # 回复逻辑
-                if should_reply:
+                # 特定成员发送了包含关键字的消息
+                if keywords and any(keyword in message_content for keyword in keywords):
                     reply_text = random.choice(reply_texts)
                     text_reply = Reply(ReplyType.TEXT, reply_text)
                     event.reply = text_reply
