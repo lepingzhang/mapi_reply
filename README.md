@@ -32,7 +32,6 @@
 ```
 {
   "name": "mapi_reply",
-  "bot_nickname": "@bot",  //换成你的微信机器人昵称
   "user_replies": {
     "wxid_1234567890": {  //指定群内某个id，支持多个
       "replies": ["OK"],  //设置机器人回复内容
